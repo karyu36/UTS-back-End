@@ -1,0 +1,22 @@
+meta {
+  name: login
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:5000/api/authentication/login
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwidXNlcklkIjoiNjYwZTAwZjliNzllZDVhZTcwNzdhMmQ3IiwiaWF0IjoxNzE0MDEyNTg1LCJleHAiOjE3MTQwOTg5ODV9.eCWWAFjeNraR5LM8WEzWIH-5PISE0ub92IkS0PG_2kw
+}
+
+body:json {
+  {
+    "email":"admin@example.com",
+    "password":"12435"
+  }
+}

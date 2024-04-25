@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "UTS BACK-END",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
