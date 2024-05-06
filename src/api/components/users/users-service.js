@@ -172,7 +172,7 @@ async function login(email, password) {
   const user = await User.findOne({ email });
 
   if (!user) {
-    return { success: false, message: "Invalid email or password." };
+    return { success: false, message: 'Invalid email or password.' };
   }
 
   // Check if login attempts exceed the limit
@@ -187,7 +187,10 @@ async function login(email, password) {
       user.lastLoginAttempt = now;
       await user.save();
     } else {
-      return { success: false, message: "Too many failed login attempts. Try again later." };
+      return {
+        success: false,
+        message: 'Too many failed login attempts. Try again later.',
+      };
     }
   }
 
@@ -201,17 +204,20 @@ async function login(email, password) {
 
     // Check if login attempts exceed the limit
     if (user.loginAttempts >= 5) {
-      return { success: false, message: "Too many failed login attempts. Try again later." };
+      return {
+        success: false,
+        message: 'Too many failed login attempts. Try again later.',
+      };
     }
 
-    return { success: false, message: "Invalid email or password." };
+    return { success: false, message: 'Invalid email or password.' };
   }
 
   // Reset failed login attempts if successful
   user.loginAttempts = 0;
   await user.save();
 
-  return { success: true, message: "Login successful." };
+  return { success: true, message: 'Login successful.' };
 }
 
 /**
@@ -223,6 +229,25 @@ async function logout(email) {
   // Implement logout functionality here, if needed
 }
 
+async function getUsers(pageNumber, pageSize) {
+  const users = await usersRepository.getUsers(pageNumber, pageSize);
+
+  const results = {
+    page_number: pageNumber,
+    page_size: pageSize,
+    count: users.length,
+    total_pages: Math.ceil(users.length / pageSize),
+    has_previous_page: pageNumber > 1,
+    has_next_page: pageNumber < Math.ceil(users.length / pageSize),
+    data: users.map((user) => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    })),
+  };
+
+  return results;
+}
 
 module.exports = {
   getUsers,
