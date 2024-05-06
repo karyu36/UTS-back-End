@@ -1,4 +1,10 @@
 const { User } = require('../../../models');
+async function getUsers(pageNumber, pageSize) {
+  const skip = (pageNumber - 1) * pageSize;
+  const users = await User.find({}).skip(skip).limit(pageSize);
+
+  return users;
+}
 
 /**
  * Get a list of users with pagination, filtering, and sorting
@@ -6,20 +12,26 @@ const { User } = require('../../../models');
  * @param {number} pageSize - Jumlah data per halaman
  * @param {string} search - Kata kunci pencarian berdasarkan nama atau email
  * @param {string} sortBy - Atribut untuk mengurutkan data
- * @param {string} sortOrder - Urutan pengurutan (asc/desc)
- * @returns {Promise} - Daftar pengguna sesuai kriteria
+ * @param {string} sortOrder - Urutan pengurutan
+ * @returns {Promise} - Daftar user sesuai kriteria
  */
-async function getUsers(pageNumber = 1, pageSize = 10, search = '', sortBy = 'name', sortOrder = 'asc') {
+async function getUsers(
+  pageNumber = 1,
+  pageSize = 10,
+  search = '',
+  sortBy = 'name',
+  sortOrder = 'asc'
+) {
   // Membuat objek query awal
   let query = {};
 
-  // Jika ada kata kunci pencarian, tambahkan ke dalam query
+  // Jika ada kata kunci pencarian, tambahkan akan ditambahkan ke dalam query
   if (search) {
     query = {
       $or: [
-        { name: { $regex: search, $options: 'i' } }, // i berarti case-insensitive
+        { name: { $regex: search, $options: 'i' } }, 
         { email: { $regex: search, $options: 'i' } },
-      ]
+      ],
     };
   }
 
@@ -51,10 +63,10 @@ async function getUser(id) {
 
 /**
  * Membuat pengguna baru
- * @param {string} name - Nama
- * @param {string} email - Email
- * @param {string} password - Kata sandi terenkripsi
- * @returns {Promise} - Pengguna yang baru dibuat
+ * @param {string} name 
+ * @param {string} email 
+ * @param {string} password - 
+ * @returns {Promise} - Membuat pengguna baru
  */
 async function createUser(name, email, password) {
   return User.create({
@@ -65,16 +77,16 @@ async function createUser(name, email, password) {
 }
 
 /**
- * Memperbarui pengguna yang ada
+ * Memperbarui pengguna yang sudah ada
  * @param {string} id - User ID
  * @param {string} name - New name
  * @param {string} email - New Email
- * @returns {Promise} - Status pembaruan
+ * @returns {Promise} - update Status
  */
 async function updateUser(id, name, email) {
   return User.updateOne(
     { _id: id }, // Kriteria pencarian
-    { $set: { name, email } } // Nilai baru
+    { $set: { name, email } } 
   );
 }
 
@@ -88,7 +100,7 @@ async function deleteUser(id) {
 }
 
 /**
- * Mendapatkan pengguna berdasarkan email untuk mencegah email ganda
+ * Mendapatkan User berdasarkan email untuk mencegah email ganda
  * @param {string} email - Email
  * @returns {Promise} - Detail pengguna
  */
@@ -97,8 +109,8 @@ async function getUserByEmail(email) {
 }
 
 /**
- * Memperbarui kata sandi pengguna
- * @param {string} id - ID Pengguna
+ * Memperbarui kata sandi User
+ * @param {string} id - ID user
  * @param {string} password - Kata sandi baru terenkripsi
  * @returns {Promise} - Status pembaruan kata sandi
  */

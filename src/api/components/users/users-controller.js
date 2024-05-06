@@ -1,6 +1,7 @@
 const usersService = require('./users-service');
 const { errorResponder, errorTypes } = require('../../../core/errors');
 
+
 /**
  * Handle get list of users request
  * @param {object} request - Express request object
@@ -17,6 +18,17 @@ async function getUsers(request, response, next) {
   }
 }
 
+async function getUsers(request, response, next) {
+  try {
+    const pageNumber = parseInt(request.query.page_number) || 1;
+    const pageSize = parseInt(request.query.page_size) || 10;
+
+    const users = await usersService.getUsers(pageNumber, pageSize);
+    return response.status(200).json(users);
+  } catch (error) {
+    return next(error);
+  }
+}
 /**
  * Handle get user detail request
  * @param {object} request - Express request object

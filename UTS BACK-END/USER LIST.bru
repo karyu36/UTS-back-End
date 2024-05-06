@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: http://localhost:5000/api/users?page_number=1&page_size=5
+  url: http://localhost:5000/api/users?page_number=1&page_size=5&search=email:test&sort=email:desc
   body: none
   auth: none
 }
@@ -13,13 +13,10 @@ get {
 query {
   page_number: 1
   page_size: 5
-  ~search: email:test
-  ~sort: email:desc
-  ~search: email:test
-  ~sort: email:desc
-  ~page: 2
+  search: email:test
+  sort: email:desc
 }
 
 headers {
-  Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwidXNlcklkIjoiNjYwZTAwZjliNzllZDVhZTcwNzdhMmQ3IiwiaWF0IjoxNzE0MDEyNTg1LCJleHAiOjE3MTQwOTg5ODV9.eCWWAFjeNraR5LM8WEzWIH-5PISE0ub92IkS0PG_2kw
+  Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwidXNlcklkIjoiNjYwZTAwZjliNzllZDVhZTcwNzdhMmQ3IiwiaWF0IjoxNzE0ODA1NDcxLCJleHAiOjE3MTQ4OTE4NzF9.p7QdYcWmVRGs4u7D2wfct_j6HaXojk2OQXN6VS8dZ_A
 }
